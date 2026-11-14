@@ -1,0 +1,2 @@
+# See k8s/deployment.yaml for the plain-manifest version.
+# This chart renders the same Deployment from values.yaml.
