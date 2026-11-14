@@ -1,0 +1,11 @@
+// AKS pod restarts in the last 24h
+KubePodInventory
+| where TimeGenerated > ago(24h)
+| summarize Restarts = sum(PodRestartCount) by Name
+| order by Restarts desc
+
+// App Service HTTP 5xx in the last hour
+AppServiceHTTPLogs
+| where TimeGenerated > ago(1h) and ScStatus >= 500
+| summarize Count = count() by CsUriStem
+| order by Count desc
