@@ -11,7 +11,7 @@
 - **Secrets in two places, for two jobs:** Azure Key Vault for Azure-native
   secrets, HashiCorp Vault for dynamic / application secrets.
 - **Small by default:** B-series AKS nodes, B1 App Service, 30-day log
-  retention. Scale up in `terraform.tfvars`, not in the modules.
+  retention. Scale up in `terraform/project/tfvars/terraform-dev.tfvars`, not in the modules.
 
 ## Diagram
 

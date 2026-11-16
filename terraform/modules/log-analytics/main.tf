@@ -1,8 +1,3 @@
-variable "name" { type = string }
-variable "location" { type = string }
-variable "resource_group_name" { type = string }
-variable "tags" { type = map(string) }
-
 resource "azurerm_log_analytics_workspace" "main" {
   name                = "log-${var.name}"
   location            = var.location
@@ -11,5 +6,3 @@ resource "azurerm_log_analytics_workspace" "main" {
   retention_in_days   = 30
   tags                = var.tags
 }
-
-output "workspace_id" { value = azurerm_log_analytics_workspace.main.id }

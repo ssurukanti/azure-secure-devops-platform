@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 module "vnet" {
-  source              = "./modules/vnet"
+  source              = "../modules/vnet"
   name                = local.name
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
@@ -17,7 +17,7 @@ module "vnet" {
 }
 
 module "log_analytics" {
-  source              = "./modules/log-analytics"
+  source              = "../modules/log-analytics"
   name                = local.name
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
@@ -25,7 +25,7 @@ module "log_analytics" {
 }
 
 module "key_vault" {
-  source              = "./modules/keyvault"
+  source              = "../modules/keyvault"
   name                = local.name
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
@@ -33,7 +33,7 @@ module "key_vault" {
 }
 
 module "aks" {
-  source              = "./modules/aks"
+  source              = "../modules/aks"
   name                = local.name
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
@@ -44,16 +44,27 @@ module "aks" {
   tags                = var.tags
 }
 
-module "app_service" {
-  source              = "./modules/appservice"
+module "app_insights" {
+  source              = "../modules/appinsights"
   name                = local.name
   location            = var.location
   resource_group_name = azurerm_resource_group.main.name
+  log_analytics_id    = module.log_analytics.workspace_id
   tags                = var.tags
 }
 
+module "app_service" {
+  source                           = "../modules/appservice"
+  name                             = local.name
+  location                         = var.location
+  resource_group_name              = azurerm_resource_group.main.name
+  app_insights_connection_string   = module.app_insights.connection_string
+  app_insights_instrumentation_key = module.app_insights.instrumentation_key
+  tags                            = var.tags
+}
+
 module "front_door" {
-  source              = "./modules/frontdoor"
+  source              = "../modules/frontdoor"
   name                = local.name
   resource_group_name = azurerm_resource_group.main.name
   app_service_host    = module.app_service.default_hostname

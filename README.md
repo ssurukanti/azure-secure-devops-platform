@@ -10,20 +10,22 @@ A demo platform that shows how I build secure, automated Azure infrastructure �
 flowchart LR
     User --> FD[Azure Front Door]
     FD --> App[App Service / AKS]
+    App --> AI[Application Insights]
+    AI --> LA[Log Analytics / Azure Monitor]
     App --> KV[Azure Key Vault]
     App --> Vault[HashiCorp Vault]
-    App --> LA[Log Analytics / Azure Monitor]
 ```
 
 - **Front Door** in front of App Service, with managed rules and IP restrictions
 - **AKS** with a demo app, ingress, health checks, and resource limits
+- **Application Insights** connected to Log Analytics to surface app logs and telemetry
 - **Key Vault** for Azure-native secrets, with RBAC (no access policies)
 - **HashiCorp Vault** policies and dynamic-secrets examples (dev Vault only)
 - **GitHub Actions**: Terraform plan on PR, apply on merge, `tfsec` scan, Docker build
 
 ## Tech stack
 
-Terraform · Azure (AKS, Front Door, App Service, Key Vault, VNet, Log Analytics) · Kubernetes / Helm · Docker · HashiCorp Vault · GitHub Actions · PowerShell · Python
+Terraform · Azure (AKS, Front Door, App Service, Key Vault, VNet, Log Analytics, Application Insights) · Kubernetes / Helm · Docker · HashiCorp Vault · GitHub Actions · PowerShell · Python
 
 ## Quick start
 
@@ -32,26 +34,27 @@ Terraform · Azure (AKS, Front Door, App Service, Key Vault, VNet, Log Analytics
 az login
 
 # 2. Configure (copy the example, fill in YOUR values — never commit the real one)
-cp terraform/terraform.tfvars.example terraform/terraform.tfvars
+cp terraform/terraform.tfvars.example terraform/project/tfvars/terraform-dev.tfvars
 
 # 3. Deploy the platform
-cd terraform
+cd terraform/project
 terraform init
-terraform plan
-terraform apply
+terraform plan -var-file="./tfvars/terraform-dev.tfvars"
+terraform apply -var-file="./tfvars/terraform-dev.tfvars"
 
 # 4. Deploy the demo app to AKS
-kubectl apply -f k8s/
+kubectl apply -f ../../k8s/
 
 # 5. Tear it down when you're done — AKS + Front Door cost money
-terraform destroy
+terraform destroy -var-file="./tfvars/terraform-dev.tfvars"
 ```
 
 ## Repo layout
 
 | Path | What it is |
 | --- | --- |
-| `terraform/` | Root module + reusable modules (`aks`, `keyvault`, `frontdoor`, `appservice`, `vnet`, `log-analytics`) |
+| `terraform/` | Root Terraform folder with the project module and reusable modules (`aks`, `keyvault`, `frontdoor`, `appservice`, `appinsights`, `vnet`, `log-analytics`) |
+| `terraform/project/` | Main Terraform project entry point and environment variable file directory (`tfvars/`) |
 | `app/` | Tiny demo web app, Dockerized |
 | `k8s/` | Kubernetes manifests for the demo app |
 | `helm/` | Helm chart for the demo app |
@@ -63,7 +66,7 @@ terraform destroy
 
 ## Cost warning
 
-AKS, Front Door, and App Service are **not free**. Run `terraform plan` first, check the resources, and run `terraform destroy` when you're done experimenting. The default node size is the smallest practical one for a demo — change it in `terraform.tfvars` if you need more.
+AKS, Front Door, and App Service are **not free**. Run `terraform plan -var-file="./tfvars/terraform-dev.tfvars"` from `terraform/project` first, check the resources, and run `terraform destroy -var-file="./tfvars/terraform-dev.tfvars"` when you're done experimenting. The default node size is the smallest practical one for a demo — change it in `terraform/project/tfvars/terraform-dev.tfvars` if you need more.
 
 ## Security notes
 

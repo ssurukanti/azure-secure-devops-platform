@@ -1,6 +1,0 @@
-# Copy to terraform.tfvars and fill in YOUR values. Never commit terraform.tfvars.
-project        = "secure-platform"
-environment    = "dev"
-location       = "Central US"
-aks_node_count = 2
-aks_node_size  = "Standard_B2s"

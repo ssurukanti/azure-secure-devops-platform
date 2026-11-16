@@ -17,3 +17,12 @@ output "front_door_endpoint" {
 output "key_vault_uri" {
   value = module.key_vault.vault_uri
 }
+
+output "application_insights_connection_string" {
+  value     = module.app_insights.connection_string
+  sensitive = true
+}
+
+output "application_insights_app_id" {
+  value = module.app_insights.app_id
+}

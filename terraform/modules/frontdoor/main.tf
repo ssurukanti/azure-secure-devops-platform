@@ -1,8 +1,3 @@
-variable "name" { type = string }
-variable "resource_group_name" { type = string }
-variable "app_service_host" { type = string }
-variable "tags" { type = map(string) }
-
 resource "azurerm_cdn_frontdoor_profile" "main" {
   name                = "fd-${var.name}"
   resource_group_name = var.resource_group_name
@@ -47,5 +42,3 @@ resource "azurerm_cdn_frontdoor_route" "main" {
 
   cdn_frontdoor_rule_set_ids = []
 }
-
-output "endpoint_hostname" { value = azurerm_cdn_frontdoor_endpoint.main.host_name }
