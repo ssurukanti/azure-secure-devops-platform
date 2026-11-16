@@ -1,23 +1,26 @@
-# Terraform
+# Terraform state and plans
 *.tfstate
 *.tfstate.*
-*.tfvars
-!*.tfvars.example
-.terraform/
-.terraform.lock.hcl
 *.tfplan
 crash.log
+.terraform/
+.terraform.lock.hcl
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
 
-# Secrets / keys
+# Terraform variables and secrets
+*.tfvars
+!*.tfvars.example
 *.pem
 *.key
 *.pfx
 .env
 .env.*
+
+# Logs
+*.log
 
 # Python / Docker
 __pycache__/
