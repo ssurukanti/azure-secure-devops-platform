@@ -34,7 +34,7 @@ Terraform · Azure (AKS, Front Door, App Service, Key Vault, VNet, Log Analytics
 az login
 
 # 2. Configure (copy the example, fill in YOUR values — never commit the real one)
-cp terraform/terraform.tfvars.example terraform/project/tfvars/terraform-dev.tfvars
+cp terraform/project/tfvars/terraform-dev.tfvars.example terraform/project/tfvars/terraform-dev.tfvars
 
 # 3. Deploy the platform
 cd terraform/project
@@ -61,12 +61,11 @@ terraform destroy -var-file="./tfvars/terraform-dev.tfvars"
 | `.github/workflows/` | Terraform CI/CD + Docker build |
 | `vault/` | Vault policies, KV + database dynamic-secrets examples |
 | `monitoring/` | Log Analytics queries, Azure Monitor alerts |
-| `scripts/` | Service-principal secret rotation (PowerShell, generalized) |
+
 | `docs/` | Architecture and security decisions |
 
 ## Cost warning
-
-AKS, Front Door, and App Service are **not free**. Run `terraform plan -var-file="./tfvars/terraform-dev.tfvars"` from `terraform/project` first, check the resources, and run `terraform destroy -var-file="./tfvars/terraform-dev.tfvars"` when you're done experimenting. The default node size is the smallest practical one for a demo — change it in `terraform/project/tfvars/terraform-dev.tfvars` if you need more.
+AKS, Front Dor, and App Service are **not free**. Run `terraform plan -var-file="./tfvars/terraform-dev.tfvars"` from `terraform/project` first, check the resources, and run `terraform destroy -var-file="./tfvars/terraform-dev.tfvars"` when you're done experimenting. The default node size is the smallest practical one for a demo — change it in `terraform/project/tfvars/terraform-dev.tfvars` if you need more.
 
 ## Security notes
 
