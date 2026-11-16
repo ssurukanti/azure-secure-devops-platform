@@ -1,0 +1,11 @@
+# Copy to terraform-dev.tfvars and fill in your own values — never commit the real file.
+project        = "secure-platform"
+environment    = "dev"
+location       = "Central US"
+aks_node_count = 2
+aks_node_size  = "Standard_B2s"
+tags = {
+  project     = "azure-secure-devops-platform"
+  environment = "dev"
+  managed_by  = "terraform"
+}
