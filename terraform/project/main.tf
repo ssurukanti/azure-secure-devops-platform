@@ -60,7 +60,7 @@ module "app_service" {
   resource_group_name              = azurerm_resource_group.main.name
   app_insights_connection_string   = module.app_insights.connection_string
   app_insights_instrumentation_key = module.app_insights.instrumentation_key
-  tags                            = var.tags
+  tags                             = var.tags
 }
 
 module "front_door" {
