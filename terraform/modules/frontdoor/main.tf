@@ -22,12 +22,12 @@ resource "azurerm_cdn_frontdoor_origin_group" "main" {
 }
 
 resource "azurerm_cdn_frontdoor_origin" "main" {
-  name                          = "origin-app"
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.main.id
-  host_name                     = var.app_service_host
-  http_port                     = 80
-  https_port                    = 443
-  origin_host_header            = var.app_service_host
+  name                           = "origin-app"
+  cdn_frontdoor_origin_group_id  = azurerm_cdn_frontdoor_origin_group.main.id
+  host_name                      = var.app_service_host
+  http_port                      = 80
+  https_port                     = 443
+  origin_host_header             = var.app_service_host
   certificate_name_check_enabled = true
 }
 
